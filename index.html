@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <label>
+        R$
+        <input
+          id="currency"
+          type="text"
+          min="0"
+          placeholder="Digite somente números"
+          onkeyup="formatarMoeda()"
+          required
+        />
+      </label>
+      <button id="simular" onclick="createElemento()">Simular</button>
+    </div>
+    <p></p>
+    <div>
+      <select id="years">
+        <option value="3" selected="3_anos">3 anos</option>
+        <option value="5" selected="5_anos">5 anos</option>
+      </select>
+    </div>
+    <script>
+      var catchValue, catchYears;
+      function calculate(num1, num2) {
+        return num1 * num2;
+      }
+
+      const createElemento = () => {
+        var simulationResult = document.getElementById("simulationResult");
+        if (simulationResult !== null) {
+          simulationResult.remove();
+        }
+
+        catchValue = document.getElementById("currency").value;
+        catchYears = document.getElementsByTagName("select")[0].value;
+        if (
+          !catchValue ||
+          !catchYears ||
+          Number.isNaN(catchValue) ||
+          Number.isNaN(catchYears)
+        ) {
+          const createDiv = document.createElement("div");
+          createDiv.setAttribute("id", "simulationResult");
+          const createPar = document.createElement("p");
+          createPar.innerText = "Insira um valor para simular";
+          const appendChil = createDiv.appendChild(createPar);
+          document.body.appendChild(createDiv);
+
+          return;
+        }
+
+        if (catchValue <= 0) {
+          const createDiv = document.createElement("div");
+          createDiv.setAttribute("id", "simulationResult");
+          const createPar = document.createElement("p");
+          createPar.innerText = "Insira um valor positivo para simular";
+          const appendChil = createDiv.appendChild(createPar);
+          document.body.appendChild(createDiv);
+
+          return;
+        }
+
+        const createDiv = document.createElement("div");
+        createDiv.setAttribute("id", "simulationResult");
+        const createPar = document.createElement("p");
+        createPar.innerHTML = calculate(catchValue, catchYears);
+        const appendChil = createDiv.appendChild(createPar);
+        document.body.appendChild(createDiv);
+
+        return;
+      };
+      // 1º = pegar todos os valores de todos os inputs e remover todos os pontos e virgulas que forem passados.
+      // 2º = adicionar casa de centavos com ponto.
+      // 3º = substituir ponto por vírgula no retorno
+
+      // OU
+
+      // 1º = fazer com que o input só aceite números e faz a conversão direta
+
+      function onlyNumbers() {
+        if (typeof catchValue !== Number) {
+        }
+      }
+
+      function formatarMoeda() {
+        var elemento = document.getElementById("currency");
+        var elementoValue = elemento.value;
+        const cents = elementoValue.slice(-2);
+        const integerValue = elementoValue.slice(0, -2);
+        if (elementoValue.length > 2) {
+          elementoValue = `${integerValue},${cents}`;
+        }
+          elemento.value = elementoValue;
+        }
+    </script>
+  </body>
+</html>
